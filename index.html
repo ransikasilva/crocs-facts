@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Crocodile Facts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            transition: transform 0.3s;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+        }
+
+        .fact {
+            font-size: 1.2em;
+            margin: 20px 0;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Crocodile Facts</h1>
+        <div id="fact" class="fact"></div>
+        <button id="newFactBtn" class="button">Get a New Fact</button>
+    </div>
+    <script>
+        const facts = [
+            { "fact": "Crocodiles are reptiles and belong to the order Crocodylia." },
+            { "fact": "They are found in tropical regions of Africa, Asia, the Americas, and Australia." },
+            { "fact": "Crocodiles can live for over 70 years in the wild." },
+            { "fact": "They are carnivorous and primarily eat fish, birds, and mammals." },
+            { "fact": "Crocodiles have powerful jaws that can exert tremendous pressure." },
+            { "fact": "They are excellent swimmers and can hold their breath underwater for over an hour." },
+            { "fact": "Crocodiles are cold-blooded, meaning their body temperature is regulated by their environment." },
+            { "fact": "They have a unique ability to see in the dark due to a special layer of tissue in their eyes." },
+            { "fact": "Crocodiles communicate through a variety of vocalizations, including growls and hisses." },
+            { "fact": "Some species of crocodiles can reach lengths of over 20 feet (6 meters)." }
+        ];
+
+        const factElement = document.getElementById('fact');
+        const newFactBtn = document.getElementById('newFactBtn');
+        let attempts = 0;
+        const maxAttempts = 3;
+
+        function getRandomFact() {
+            const randomIndex = Math.floor(Math.random() * facts.length);
+            return facts[randomIndex].fact;
+        }
+
+        function displayFact() {
+            const fact = getRandomFact();
+            factElement.textContent = fact;
+            factElement.style.opacity = 0; // Start with opacity 0
+            setTimeout(() => {
+                factElement.textContent = fact;
+                factElement.style.opacity = 1; // Fade in
+            }, 100);
+        }
+
+        function moveButton(event) {
+            if (attempts < maxAttempts) {
+                const x = Math.random() * (window.innerWidth - newFactBtn.offsetWidth);
+                const y = Math.random() * (window.innerHeight - newFactBtn.offsetHeight);
+                newFactBtn.style.position = 'absolute';
+                newFactBtn.style.left = `${x}px`;
+                newFactBtn.style.top = `${y}px`;
+                attempts++;
+            } else {
+                newFactBtn.removeEventListener('mouseover', moveButton);
+                newFactBtn.addEventListener('click', displayFact);
+            }
+        }
+
+        newFactBtn.addEventListener('mouseover', moveButton);
+
+        // Display a fact when the page loads
+        window.onload = displayFact;
+    </script>
+</body>
+</html>
